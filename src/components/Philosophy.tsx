@@ -50,9 +50,9 @@ export default function Philosophy({ pointer, scroll }: PhilosophyProps) {
         <RecursiveTunnel
           className="tunnel-canvas"
           depth={17}
-          intensity={0.85}
+          intensity={0.5}
           mouseInfluence={22}
-          scrollInfluence={0.5}
+          scrollInfluence={0.4}
           pointer={pointer}
           scroll={scroll}
           scale={mode.scale}

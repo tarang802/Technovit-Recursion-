@@ -23,7 +23,7 @@ export default function Tracks({ pointer, scroll }: TracksProps) {
           className="tunnel-canvas"
           depth={18}
           speed={0.06}
-          intensity={0.8}
+          intensity={0.5}
           distortion={hover ? 20 : 8}
           rotation={0.003}
           scale={hover ? 0.95 : 0.78}

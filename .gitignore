@@ -5,3 +5,9 @@ dist-ssr
 .DS_Store
 .vscode/*
 !.vscode/extensions.json
+
+# TypeScript incremental build cache
+*.tsbuildinfo
+
+# Local agent/editor tooling
+.claude

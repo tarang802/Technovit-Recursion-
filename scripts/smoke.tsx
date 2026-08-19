@@ -75,7 +75,10 @@ const checks: Array<[string, boolean]> = [
   ['no dead partner anchor', !html.includes('href="#partner"')],
   ['section numbering continuous', /eyebrow__index">0[1-8]</.test(html) && !/eyebrow__index">(09|10)</.test(html)],
   ['prize pool', html.includes('₹10,00,000')],
-  ['registration anchor cta', html.includes('href="#registration"')],
+  // Until a real registration URL exists the primary CTA opens the event tour
+  // rather than dead-ending on the "to be announced" panel.
+  ['primary cta starts tour', html.includes('href="#about"')],
+  ['no dead-end registration cta', !html.includes('href="#registration"')],
   ['footer loop', html.includes('ENTER AGAIN')],
   ['no lorem', !/lorem ipsum/i.test(html)],
   ['no TODO', !/TODO|Coming soon/i.test(html)],

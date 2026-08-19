@@ -247,13 +247,3 @@ recursion-edition-ii/
   never carries meaning that isn't available elsewhere.
 - All canvases are `aria-hidden`.
 
-## A note on the dates
-
-The supplied poster carries **29–30 August 2026**. The official prospectus carries
-**3–4 September 2026**. September is treated as canonical throughout, and the
-smoke test fails the build if the August date ever appears in rendered output.
-
----
-
-Microsoft Innovations Club, VIT Chennai · mic.vit.chennai@gmail.com
-Once the clock starts, it's on.

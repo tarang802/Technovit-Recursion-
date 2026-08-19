@@ -21,6 +21,21 @@ export const REGISTRATION_URL = '#registration';
 
 export const isExternalRegistration = !REGISTRATION_URL.startsWith('#');
 
+/**
+ * Where the primary "Enter Recursion" CTA points while registration is not yet
+ * open. Sending it to #registration dropped the visitor at the foot of the page
+ * on a "details will be announced" panel — a dead end. It now opens the walk
+ * through the event instead: about → philosophy → tracks → experience →
+ * schedule, which is the actual answer to "what is this?".
+ *
+ * The moment REGISTRATION_URL becomes a real absolute URL this is bypassed and
+ * every CTA goes straight to the live registration link.
+ */
+export const TOUR_START_URL = '#about';
+
+/** Resolved target for every "Enter Recursion" / "Register" button. */
+export const primaryCtaHref = isExternalRegistration ? REGISTRATION_URL : TOUR_START_URL;
+
 export const event = {
   name: 'RECURSION',
   edition: 'EDITION II',
