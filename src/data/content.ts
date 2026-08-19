@@ -104,7 +104,7 @@ export const customPartnershipAxes = [
 ];
 
 export const stats = [
-  { value: 3500, suffix: '+', display: '3,500+', label: 'REGISTRATIONS RECEIVED FOR EDITION II' },
+  { value: 3500, suffix: '+', display: '3,500+', label: 'REGISTRATIONS RECEIVED FOR EDITION I' },
   { value: 650, prefix: '550–', display: '550–650', label: 'BUILDERS SHORTLISTED FOR THE FINAL HACKATHON' },
   { value: 24, display: '24', label: 'HOURS OF NON-STOP, ON-GROUND BUILDING' },
   { value: 1, display: '1', label: 'ONLY OVERNIGHT FLAGSHIP EVENT AT TECHNOVIT 2026' },
