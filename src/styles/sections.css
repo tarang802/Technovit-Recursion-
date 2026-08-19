@@ -29,10 +29,17 @@
   pointer-events: none;
 }
 
+/* Sits behind the readout rather than above it, so the copy reads out of a
+   tunnel that keeps descending for the whole sequence. */
 .loader__rects {
-  position: relative;
-  width: min(46vmin, 380px);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(72vmin, 560px);
   aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  opacity: 0.5;
+  pointer-events: none;
 }
 .loader__rect {
   position: absolute;
@@ -40,7 +47,7 @@
   border: 1px solid var(--crimson);
   transform: scale(0.05);
   opacity: 0;
-  animation: loader-nest 1.5s var(--ease) forwards;
+  animation: loader-nest 2.6s linear infinite;
 }
 .loader__rect:nth-child(2) {
   border-color: var(--crimson-accent);
@@ -53,26 +60,139 @@
     transform: scale(0.04);
     opacity: 0;
   }
-  40% {
-    opacity: 1;
+  25% {
+    opacity: 0.9;
+  }
+  85% {
+    opacity: 0.5;
   }
   100% {
     transform: scale(1);
-    opacity: 0.55;
+    opacity: 0;
   }
 }
 
 .loader__readout {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  min-height: 5.5rem;
+  /* Reserve the tallest phase so the block does not jump between them. */
+  min-height: clamp(11rem, 26vh, 14rem);
+  padding: 0 var(--gutter);
 }
-.loader__depth {
-  margin: 0.75rem 0 0;
-  font-family: var(--mono);
-  font-size: clamp(1.5rem, 5vw, 2.5rem);
-  letter-spacing: 0.1em;
+
+/* ---- phase 1: presented by ---- */
+
+.loader__mic {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+  animation: fade-up 0.7s var(--ease) both;
+}
+.loader__logo {
+  --mic-h: clamp(2.75rem, 9vw, 4rem);
+  margin-bottom: 0.4rem;
+}
+.loader__org {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(1.05rem, 3.4vw, 1.75rem);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--cream);
+  text-transform: uppercase;
+}
+
+/* ---- phase 2: the definition, nesting into itself ---- */
+
+.loader__define {
+  /* Reads as a dictionary entry, so the block is left-set and then centred as
+     a whole rather than each line being centred against the next. */
+  text-align: left;
+  animation: fade-up 0.6s var(--ease) both;
+}
+.loader__entry {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+  margin: 0 0 1rem;
+}
+.loader__entry-word {
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: clamp(1.6rem, 6vw, 3rem);
+  letter-spacing: -0.04em;
   color: var(--cream);
 }
+.loader__entry-pos {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.2em;
+  color: var(--crimson-accent);
+  text-transform: uppercase;
+}
+
+/* Each level is one call deeper: indented, smaller, dimmer, and revealed a
+   beat later than its parent. */
+.loader__nest {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  padding-left: 1.5rem;
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.06em;
+  color: var(--cream-dim);
+  transform-origin: left top;
+  animation: nest-in 0.45s var(--ease) both;
+}
+/* Compounding: every level inherits its parent's reduction, so the entry
+   visibly falls away from the reader the deeper the call goes. */
+.loader__nest .loader__nest {
+  font-size: 0.95em;
+  opacity: 0.76;
+  animation-delay: 0.16s;
+}
+.loader__nest-line {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  white-space: nowrap;
+}
+.loader__nest-arrow {
+  color: var(--crimson);
+}
+.loader__nest-text em {
+  font-style: normal;
+  color: var(--crimson-accent);
+}
+.loader__nest-end {
+  display: block;
+  padding-left: 1.5rem;
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  color: var(--cream-faint);
+  letter-spacing: 0.3em;
+  animation: nest-in 0.45s var(--ease) 0.16s both;
+}
+@keyframes nest-in {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---- phase 3: the title ---- */
+
 .loader__title {
   display: flex;
   flex-direction: column;
@@ -86,6 +206,17 @@
   font-size: clamp(2.25rem, 9vw, 5rem);
   letter-spacing: -0.04em;
   line-height: 1;
+}
+
+/* ---- persistent readout ---- */
+
+.loader__depth {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.3em;
 }
 @keyframes fade-up {
   from {
@@ -952,7 +1083,13 @@
 .clock__entry {
   position: relative;
   display: grid;
+  /* Named areas rather than auto-placement: the node spans both rows, and
+     without an explicit track the body used to land in the 28px node column
+     and wrap one character per line on phones. */
   grid-template-columns: 1.75rem minmax(0, 1fr);
+  grid-template-areas:
+    'node time'
+    'node body';
   gap: 0 1.25rem;
   padding: clamp(1.1rem, 2.4vw, 1.6rem) 0;
   border-bottom: 1px solid var(--rule);
@@ -969,6 +1106,7 @@
 @media (min-width: 900px) {
   .clock__entry {
     grid-template-columns: 1.75rem minmax(0, 12rem) minmax(0, 1fr);
+    grid-template-areas: 'node time body';
     align-items: start;
   }
 }
@@ -976,7 +1114,14 @@
   position: relative;
   display: block;
   align-self: stretch;
-  grid-row: 1 / -1;
+  grid-area: node;
+}
+.clock__time {
+  grid-area: time;
+}
+.clock__body {
+  grid-area: body;
+  min-width: 0;
 }
 .clock__node::before {
   content: '';
@@ -1584,4 +1729,145 @@
   justify-content: space-between;
   padding: 1.75rem var(--gutter);
   border-top: 1px solid var(--rule);
+}
+
+/* =========================================================================
+   MOBILE
+   Everything above is fluid, so this is a corrective pass rather than a second
+   design: touch ergonomics, the few places the desktop rhythm reads cramped on
+   a phone, and keeping the tunnel's share of a narrow screen intact.
+   ========================================================================= */
+
+/* ------------------------------------------------- touch ergonomics --- */
+
+@media (pointer: coarse) {
+  /* Every control clears the 44px minimum target. Padding rather than
+     min-height, so baseline alignment inside these rows is preserved. */
+  .footer__links a {
+    display: inline-block;
+    padding: 0.7rem 0;
+  }
+  .footer__links li + li {
+    margin-top: 0;
+  }
+  .philosophy__word {
+    padding: 0.65rem 0;
+  }
+  .nav__mark {
+    padding: 0.6rem 0;
+  }
+  .menu__link {
+    padding: 0.6rem 0;
+  }
+  .track__button {
+    min-height: 56px;
+  }
+  .hero__scroll {
+    padding: 0.5rem 0;
+  }
+
+  /* Tap flash fights a black-and-crimson palette; focus rings still show. */
+  a,
+  button {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* Hover-only reveals never fire on touch — give the resting state instead
+     of leaving these permanently invisible. */
+  .philosophy__note {
+    opacity: 1;
+    transform: none;
+  }
+  .track--hover {
+    background: none;
+  }
+}
+
+/* ------------------------------------------------------ phone layout --- */
+
+@media (max-width: 700px) {
+  /* Tighten the timeline rail: at this width the 1.75rem gutter plus a
+     1.25rem gap eats an eighth of the line length. */
+  .clock__entry {
+    grid-template-columns: 1.25rem minmax(0, 1fr);
+    gap: 0 0.85rem;
+  }
+  .clock__day-head {
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+  .clock__flow-list {
+    font-size: 0.6875rem;
+  }
+
+  /* The scrims are tuned for wide viewports; on a narrow one the same ellipse
+     covers nearly the whole canvas and flattens the artwork out of the page.
+     Pull them back so the tunnel still reads behind the type. */
+  .section--philosophy::after,
+  .section--tracks::after {
+    background: radial-gradient(
+      ellipse 96% 62% at 50% 50%,
+      rgba(5, 5, 5, 0.82) 0%,
+      rgba(5, 5, 5, 0.62) 58%,
+      rgba(5, 5, 5, 0.22) 100%
+    );
+  }
+
+  .experience__brief {
+    gap: 0.5rem 1.5rem;
+  }
+  .judging__panel-head {
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .footer__base {
+    gap: 0.5rem;
+  }
+
+  /* The wordmark lockup is an unwrappable flex row, so its min-content width
+     (logo + RECURSION + numeral) was widening the whole footer grid column and
+     spilling under .footer's overflow:hidden on narrow phones. */
+  .footer__mark {
+    flex-wrap: wrap;
+    gap: 0.5rem 0.85rem;
+  }
+  .footer__grid,
+  .footer__cols,
+  .footer__grid > * {
+    min-width: 0;
+  }
+}
+
+/* ----------------------------------------------------- small phones --- */
+
+@media (max-width: 400px) {
+  /* Display sizes are already at their clamp floors here, so what is left to
+     recover is tracking: 0.3em+ on mono caps forces ragged two-line wraps. */
+  .hero__tagline {
+    letter-spacing: 0.22em;
+  }
+  .prize__label {
+    letter-spacing: 0.24em;
+  }
+  .loop__tagline {
+    letter-spacing: 0.2em;
+  }
+  .registration__where {
+    letter-spacing: 0.14em;
+    gap: 0.4rem 0.85rem;
+  }
+  .sysline {
+    gap: 0.3rem 1rem;
+  }
+  .track__spec dd {
+    letter-spacing: 0.1em;
+  }
+
+  /* Two full-width buttons stack better than two ragged half-width ones. */
+  .hero__actions .btn,
+  .registration__actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
 }

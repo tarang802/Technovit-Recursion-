@@ -2,9 +2,9 @@
  * Microsoft Innovations Club mark — the organising club's logo.
  *
  * Every placement on the site renders through this component, and the artwork
- * itself is a single file at public/assets/mic-logo.svg. Drop the official
- * vector in at that path and all placements update at once; nothing else needs
- * to change.
+ * itself is a single file in public/assets. Swap that file (and the aspect in
+ * the --mic-h rule in globals.css if its proportions differ) and all
+ * placements update at once; nothing else needs to change.
  */
 interface MicLogoProps {
   className?: string;
@@ -19,11 +19,11 @@ export default function MicLogo({ className = 'mic-logo', label }: MicLogoProps)
   return (
     <img
       className={className}
-      src="./assets/mic-logo.svg"
+      src="./assets/mic_logo_pixel.png"
       alt={label ?? ''}
       aria-hidden={label ? undefined : true}
-      width={160}
-      height={112}
+      width={220}
+      height={159}
       decoding="async"
     />
   );

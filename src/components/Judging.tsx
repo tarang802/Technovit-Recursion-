@@ -8,7 +8,7 @@ export default function Judging() {
     <section className="section section--judging" id="judging">
       <div className="shell" ref={ref}>
         <div className="eyebrow">
-          <span className="eyebrow__index">07</span>
+          <span className="eyebrow__index">06</span>
           <span className="meta">EVALUATION</span>
           <span className="eyebrow__rule" />
         </div>

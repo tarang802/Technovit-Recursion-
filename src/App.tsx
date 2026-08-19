@@ -11,7 +11,6 @@ import About from './components/About';
 import Philosophy from './components/Philosophy';
 import Tracks from './components/Tracks';
 import Experience from './components/Experience';
-import BringYourOwnChallenge from './components/BringYourOwnChallenge';
 import Timeline from './components/Timeline';
 import Judging from './components/Judging';
 import PrizePool from './components/PrizePool';
@@ -42,7 +41,6 @@ export default function App() {
         <Philosophy pointer={pointer} scroll={scroll} />
         <Tracks pointer={pointer} scroll={scroll} />
         <Experience />
-        <BringYourOwnChallenge />
         <Timeline />
         <Judging />
         <PrizePool pointer={pointer} scroll={scroll} />

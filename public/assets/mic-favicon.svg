@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="22.5 10.5 155 155" role="img" aria-label="Microsoft Innovations Club">
+  <title>Microsoft Innovations Club</title>
+  <!--
+    Square framing of the MIC four-hexagon mark, for use as a favicon and app
+    icon. The in-page logo is the raster at mic_logo_pixel.png; a browser tab
+    renders at 16-32px, where a downscaled 220x159 raster goes soft and its
+    landscape aspect gets squeezed into the square icon slot. Gradient stops
+    below are sampled from that same artwork.
+  -->
+  <defs>
+    <linearGradient id="f-top" x1="0" y1="0.1" x2="1" y2="0.75">
+      <stop offset="0" stop-color="#F5C513" />
+      <stop offset="0.5" stop-color="#B5AC2B" />
+      <stop offset="1" stop-color="#328050" />
+    </linearGradient>
+    <linearGradient id="f-left" x1="0.2" y1="0" x2="0.7" y2="1">
+      <stop offset="0" stop-color="#F7591E" />
+      <stop offset="1" stop-color="#E8471D" />
+    </linearGradient>
+    <linearGradient id="f-right" x1="0.05" y1="0" x2="0.95" y2="1">
+      <stop offset="0" stop-color="#2080AE" />
+      <stop offset="1" stop-color="#143F71" />
+    </linearGradient>
+    <linearGradient id="f-bottom" x1="0.15" y1="0" x2="0.85" y2="1">
+      <stop offset="0" stop-color="#268A36" />
+      <stop offset="1" stop-color="#155533" />
+    </linearGradient>
+  </defs>
+
+  <g stroke-linejoin="round" stroke-width="5">
+    <polygon points="125,62 112.5,83.65 87.5,83.65 75,62 87.5,40.35 112.5,40.35"
+      fill="url(#f-top)" stroke="url(#f-top)" />
+    <polygon points="79,88 66.5,109.65 41.5,109.65 29,88 41.5,66.35 66.5,66.35"
+      fill="url(#f-left)" stroke="url(#f-left)" />
+    <polygon points="171,88 158.5,109.65 133.5,109.65 121,88 133.5,66.35 158.5,66.35"
+      fill="url(#f-right)" stroke="url(#f-right)" />
+    <polygon points="125,114 112.5,135.65 87.5,135.65 75,114 87.5,92.35 112.5,92.35"
+      fill="url(#f-bottom)" stroke="url(#f-bottom)" />
+  </g>
+</svg>

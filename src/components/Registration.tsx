@@ -32,7 +32,7 @@ export default function Registration({ pointer, scroll }: RegistrationProps) {
 
       <div className="shell registration__inner" ref={ref}>
         <div className="eyebrow">
-          <span className="eyebrow__index">08</span>
+          <span className="eyebrow__index">07</span>
           <span className="meta">REGISTRATION</span>
           <span className="eyebrow__rule" />
         </div>

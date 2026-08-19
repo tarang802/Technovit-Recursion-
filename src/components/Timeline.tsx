@@ -35,7 +35,7 @@ export default function Timeline() {
     <section className="section section--clock" id="schedule">
       <div className="shell" ref={ref}>
         <div className="eyebrow">
-          <span className="eyebrow__index">06</span>
+          <span className="eyebrow__index">05</span>
           <span className="meta">EVENT FLOW</span>
           <span className="eyebrow__rule" />
         </div>

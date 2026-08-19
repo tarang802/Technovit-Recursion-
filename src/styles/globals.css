@@ -445,7 +445,7 @@ p:last-child {
    than as decoration competing with the tunnel. */
 /* Width is derived from height rather than left to `auto`: as a flex item the
    mark would otherwise be squeezed by its neighbouring text and the hexagons
-   would distort. 10/7 is the artwork's own 160x112 aspect. */
+   would distort. 220/159 is the artwork's own pixel aspect. */
 .mic-logo,
 .nav__logo,
 .menu__logo,
@@ -455,7 +455,7 @@ p:last-child {
   --mic-h: 1.75rem;
   display: block;
   height: var(--mic-h);
-  width: calc(var(--mic-h) * 10 / 7);
+  width: calc(var(--mic-h) * 220 / 159);
   flex: 0 0 auto;
   object-fit: contain;
 }

@@ -56,7 +56,24 @@ const { default: App } = await import('../src/App');
 const root = createRoot(document.getElementById('root')!);
 root.render(React.createElement(App));
 
-await new Promise((r) => setTimeout(r, 2600));
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+const phase = () => {
+  const el = document.querySelector('.loader');
+  if (!el) return 'gone';
+  return ([...el.classList].find((c) => c.startsWith('loader--')) ?? '').replace('loader--', '');
+};
+const readout = () => document.querySelector('.loader__readout')?.textContent ?? '';
+
+// Walk the loader sequence. Boundaries come from PHASES in Loader.tsx:
+// mic 0-1700, define 1700-3900, title 3900-5200, out 5200-5700.
+await sleep(300);
+const L1 = { phase: phase(), text: readout(), html: document.body.innerHTML };
+await sleep(1850);
+const L2 = { phase: phase(), text: readout() };
+await sleep(2100);
+const L3 = { phase: phase(), text: readout() };
+await sleep(2300);
+const L4 = { phase: phase() };
 
 const html = document.getElementById('root')!.innerHTML;
 const checks: Array<[string, boolean]> = [
@@ -67,13 +84,13 @@ const checks: Array<[string, boolean]> = [
   ['no sixth track', !html.includes('Track 06')],
   ['full schedule', (html.match(/class="clock__entry[ "]/g) || []).length === 14],
   ['judging section', html.includes('THREE ROUNDS')],
-  ['byoc section', html.includes('SHAPE WHAT GETS BUILT')],
-  // The standalone "Call for judges" and "Partner with us" sections were cut;
-  // sponsor outreach now runs solely through Bring Your Own Challenge.
+  // The sponsor-facing sections (Bring Your Own Challenge, Call for Judges,
+  // Partner With Us) were all cut; the site is participant-facing only.
+  ['byoc section absent', !html.includes('SHAPE WHAT GETS BUILT')],
   ['judges section absent', !html.includes('FLAGSHIP ACCESS')],
   ['partner section absent', !html.includes('BECOME A PARTNER')],
   ['no dead partner anchor', !html.includes('href="#partner"')],
-  ['section numbering continuous', /eyebrow__index">0[1-8]</.test(html) && !/eyebrow__index">(09|10)</.test(html)],
+  ['section numbering continuous', /eyebrow__index">0[1-7]</.test(html) && !/eyebrow__index">(08|09|10)</.test(html)],
   ['prize pool', html.includes('₹10,00,000')],
   // Until a real registration URL exists the primary CTA opens the event tour
   // rather than dead-ending on the "to be announced" panel.
@@ -82,6 +99,15 @@ const checks: Array<[string, boolean]> = [
   ['footer loop', html.includes('ENTER AGAIN')],
   ['no lorem', !/lorem ipsum/i.test(html)],
   ['no TODO', !/TODO|Coming soon/i.test(html)],
+
+  // Loader sequence: MIC credit, the self-referential definition, then title.
+  ['loader opens on mic credit', L1.phase === 'mic' && /PRESENTED BY/i.test(L1.text)],
+  ['loader credits the club', /Microsoft Innovations Club/i.test(L1.text)],
+  ['loader shows mic logo', /mic_logo_pixel\.png/.test(L1.html)],
+  ['loader reaches definition', L2.phase === 'define' && /recursion/i.test(L2.text)],
+  ['definition recurses into itself', (L2.text.match(/see:/g) ?? []).length >= 3],
+  ['loader reaches title', L3.phase === 'title' || L3.phase === 'out'],
+  ['loader finishes and unmounts', L4.phase === 'gone'],
 ];
 
 let failed = 0;
