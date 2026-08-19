@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="20 32 160 112" role="img" aria-label="Microsoft Innovations Club">
+  <title>Microsoft Innovations Club</title>
+  <defs>
+    <linearGradient id="mic-top" x1="0" y1="0" x2="1" y2="0.65">
+      <stop offset="0" stop-color="#F9CB1C" />
+      <stop offset="0.55" stop-color="#CFC021" />
+      <stop offset="1" stop-color="#6FB12A" />
+    </linearGradient>
+    <linearGradient id="mic-left" x1="0.15" y1="0" x2="0.75" y2="1">
+      <stop offset="0" stop-color="#F47B20" />
+      <stop offset="1" stop-color="#E23B12" />
+    </linearGradient>
+    <linearGradient id="mic-right" x1="0.1" y1="0" x2="0.9" y2="1">
+      <stop offset="0" stop-color="#2FA3DC" />
+      <stop offset="1" stop-color="#1160A8" />
+    </linearGradient>
+    <linearGradient id="mic-bottom" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#57B23C" />
+      <stop offset="1" stop-color="#11762E" />
+    </linearGradient>
+  </defs>
+
+  <g stroke-linejoin="round" stroke-width="5">
+    <polygon
+      points="125,62 112.5,83.65 87.5,83.65 75,62 87.5,40.35 112.5,40.35"
+      fill="url(#mic-top)"
+      stroke="url(#mic-top)"
+    />
+    <polygon
+      points="79,88 66.5,109.65 41.5,109.65 29,88 41.5,66.35 66.5,66.35"
+      fill="url(#mic-left)"
+      stroke="url(#mic-left)"
+    />
+    <polygon
+      points="171,88 158.5,109.65 133.5,109.65 121,88 133.5,66.35 158.5,66.35"
+      fill="url(#mic-right)"
+      stroke="url(#mic-right)"
+    />
+    <polygon
+      points="125,114 112.5,135.65 87.5,135.65 75,114 87.5,92.35 112.5,92.35"
+      fill="url(#mic-bottom)"
+      stroke="url(#mic-bottom)"
+    />
+  </g>
+</svg>

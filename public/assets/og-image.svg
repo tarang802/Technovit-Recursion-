@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <rect width="1200" height="630" fill="#050505"/>
+  <g opacity="0.9">
+    <rect x="700" y="60" width="440" height="510" fill="#3A0000"/>
+    <rect x="745" y="112" width="350" height="406" fill="#650000"/>
+    <rect x="790" y="164" width="260" height="302" fill="#9A0000"/>
+    <rect x="835" y="216" width="170" height="198" fill="#C1121F"/>
+    <rect x="880" y="268" width="80" height="94" fill="#1A0000"/>
+  </g>
+  <text x="70" y="200" fill="#E8DED0" font-family="Archivo, Arial Black, sans-serif" font-size="112" font-weight="900" letter-spacing="-4">RECURSION</text>
+  <text x="72" y="262" fill="#E8DED0" font-family="Archivo, Arial, sans-serif" font-size="34" font-weight="700" letter-spacing="14">EDITION II</text>
+  <text x="72" y="420" fill="#C1121F" font-family="monospace" font-size="22" letter-spacing="4">CALLS ITSELF AT TECHNO.</text>
+  <text x="72" y="490" fill="#9A9287" font-family="monospace" font-size="20" letter-spacing="3">3-4 SEPTEMBER 2026 / VIT CHENNAI</text>
+  <text x="72" y="524" fill="#9A9287" font-family="monospace" font-size="20" letter-spacing="3">24-HOUR OFFLINE HACKATHON</text>
+  <text x="72" y="580" fill="#5E574F" font-family="monospace" font-size="18" letter-spacing="3">MICROSOFT INNOVATIONS CLUB / TECHNOVIT 2026</text>
+</svg>

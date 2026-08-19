@@ -1,0 +1,96 @@
+/**
+ * Headless smoke test: mounts the whole app in jsdom, runs every effect, and
+ * fails on any console error/warning or thrown exception.
+ *   npx tsx scripts/smoke.tsx
+ */
+import { JSDOM } from 'jsdom';
+
+const dom = new JSDOM('<!doctype html><html><body><div id="root"></div></body></html>', {
+  url: 'https://recursion.test/',
+  pretendToBeVisual: true,
+});
+
+const g = globalThis as any;
+g.window = dom.window;
+g.document = dom.window.document;
+Object.defineProperty(g, 'navigator', { value: dom.window.navigator, configurable: true });
+g.HTMLElement = dom.window.HTMLElement;
+g.Element = dom.window.Element;
+g.Node = dom.window.Node;
+g.getComputedStyle = dom.window.getComputedStyle;
+g.requestAnimationFrame = (cb: FrameRequestCallback) => setTimeout(() => cb(performance.now()), 16) as unknown as number;
+g.cancelAnimationFrame = (id: number) => clearTimeout(id);
+g.IntersectionObserver = class {
+  constructor(private cb: (e: unknown[]) => void) {}
+  observe() { this.cb([{ isIntersecting: true }]); }
+  unobserve() {}
+  disconnect() {}
+};
+dom.window.matchMedia = ((q: string) => ({
+  matches: false,
+  media: q,
+  onchange: null,
+  addEventListener() {},
+  removeEventListener() {},
+  addListener() {},
+  removeListener() {},
+  dispatchEvent: () => false,
+})) as any;
+g.matchMedia = dom.window.matchMedia;
+g.IntersectionObserver = g.IntersectionObserver;
+
+const problems: string[] = [];
+const origError = console.error;
+const origWarn = console.warn;
+const IGNORE = /getContext\(\) method/; // jsdom has no canvas backend; the app handles a null context
+console.error = (...a: unknown[]) => {
+  const msg = a.join(' ');
+  if (!IGNORE.test(msg)) { problems.push('ERROR ' + msg); origError(...a); }
+};
+console.warn = (...a: unknown[]) => { problems.push('WARN  ' + a.join(' ')); origWarn(...a); };
+
+const { createRoot } = await import('react-dom/client');
+const React = await import('react');
+const { default: App } = await import('../src/App');
+
+const root = createRoot(document.getElementById('root')!);
+root.render(React.createElement(App));
+
+await new Promise((r) => setTimeout(r, 2600));
+
+const html = document.getElementById('root')!.innerHTML;
+const checks: Array<[string, boolean]> = [
+  ['hero renders', html.includes('RECURSION')],
+  ['canonical date present', html.includes('3–4 SEPTEMBER 2026') || html.includes('3–4 September 2026')],
+  ['poster date absent', !/AUGUST\s*2026/i.test(html) && !/29\s*[–-]\s*30/.test(html)],
+  ['five tracks', (html.match(/Track 0[1-5]:/g) || []).length === 5],
+  ['no sixth track', !html.includes('Track 06')],
+  ['full schedule', (html.match(/class="clock__entry[ "]/g) || []).length === 14],
+  ['judging section', html.includes('THREE ROUNDS')],
+  ['byoc section', html.includes('SHAPE WHAT GETS BUILT')],
+  // The standalone "Call for judges" and "Partner with us" sections were cut;
+  // sponsor outreach now runs solely through Bring Your Own Challenge.
+  ['judges section absent', !html.includes('FLAGSHIP ACCESS')],
+  ['partner section absent', !html.includes('BECOME A PARTNER')],
+  ['no dead partner anchor', !html.includes('href="#partner"')],
+  ['section numbering continuous', /eyebrow__index">0[1-8]</.test(html) && !/eyebrow__index">(09|10)</.test(html)],
+  ['prize pool', html.includes('₹10,00,000')],
+  ['registration anchor cta', html.includes('href="#registration"')],
+  ['footer loop', html.includes('ENTER AGAIN')],
+  ['no lorem', !/lorem ipsum/i.test(html)],
+  ['no TODO', !/TODO|Coming soon/i.test(html)],
+];
+
+let failed = 0;
+for (const [name, ok] of checks) {
+  if (!ok) { failed++; origError('  FAIL  ' + name); } else { console.log('  pass  ' + name); }
+}
+
+root.unmount();
+
+if (problems.length) {
+  origError('\nConsole output during mount:');
+  problems.forEach((p) => origError('  ' + p));
+}
+origError(`\n${failed} content check(s) failed, ${problems.length} console message(s).`);
+process.exit(failed || problems.length ? 1 : 0);
