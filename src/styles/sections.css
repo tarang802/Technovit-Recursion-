@@ -661,6 +661,35 @@
   }
 }
 
+/* Below the two-column breakpoint the rail folds back under the copy. It has
+   to give up the behaviours that only make sense in a 21rem-wide track, or a
+   950px viewport gets a full-width button with the arrow flung to the far
+   edge. Same 1000px boundary as the grid above — no gap between them. */
+@media (max-width: 999px) {
+  .hero__rail {
+    max-width: 30rem;
+  }
+  /* Label and arrow travel together once the button is no longer track-width. */
+  .hero__actions .btn {
+    justify-content: center;
+  }
+  /* Label and value share a row. Three stacked pairs cost ~180px of phone
+     scroll to carry three short facts; paired rows halve that and read as the
+     spec table they are. Wrapping is the escape hatch under ~320px. */
+  .hero__facts > div {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.15rem 1.25rem;
+    padding: 0.6rem 0;
+  }
+  .hero__facts dd {
+    margin-left: auto;
+    text-align: right;
+  }
+}
+
 .hero__scroll {
   position: absolute;
   left: var(--gutter);
@@ -703,10 +732,6 @@
   }
   .hero__scroll {
     display: none;
-  }
-  /* Rail folds back into the flow: CTA first, then the facts as a rule-set. */
-  .hero__rail {
-    max-width: 26rem;
   }
 }
 
@@ -1750,7 +1775,7 @@
   margin: 0 auto;
   max-width: var(--maxw);
   padding: clamp(2rem, 4.5vw, 3.25rem) var(--gutter) clamp(3rem, 6vw, 4.5rem);
-  line-height: 1.02;
+  line-height: 1.04;
   letter-spacing: -0.03em;
   color: var(--cream);
 }
@@ -1900,6 +1925,16 @@
   }
   .footer__base {
     gap: 0.5rem;
+  }
+
+  /* Display leading is set for a single line. Both of these wrap on a phone,
+     where 1.0x closes the lines up until the descenders touch. */
+  .footer__closing {
+    line-height: 1.14;
+    letter-spacing: -0.025em;
+  }
+  .hero__philosophy {
+    line-height: 1.12;
   }
 
   /* The wordmark lockup is an unwrappable flex row, so its min-content width
