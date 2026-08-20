@@ -32,8 +32,8 @@ export default function Hero({ pointer, scroll }: HeroProps) {
           scale={0.92}
           mouseInfluence={38}
           scrollInfluence={1.6}
-          originX={0.72}
-          originY={0.5}
+          originX={0.58}
+          originY={0.56}
           pointer={pointer}
           scroll={scroll}
         />
@@ -58,43 +58,55 @@ export default function Hero({ pointer, scroll }: HeroProps) {
           </span>
         </h1>
 
-        <p className="hero__tagline">{event.tagline}</p>
+        {/* Two columns from here down. The left keeps the voice, the right takes
+            the hard facts and the call to action so the fold is not all mass on
+            one side — and so REGISTER never falls below the viewport. */}
+        <div className="hero__body">
+          <div className="hero__lead">
+            <p className="hero__tagline">{event.tagline}</p>
 
-        <dl className="hero__facts">
-          <div>
-            <dt className="meta meta--faint">FORMAT</dt>
-            <dd>24-HOUR OFFLINE HACKATHON</dd>
+            <p className="hero__philosophy" aria-label="Build. Break. Test. Ship. Repeat.">
+              {event.philosophy.map((word) => (
+                <span key={word} aria-hidden="true">
+                  {word}
+                </span>
+              ))}
+            </p>
+
+            <p className="hero__support lede">{event.heroSupport}</p>
           </div>
-          <div>
-            <dt className="meta meta--faint">DATES</dt>
-            <dd>3–4 SEPTEMBER 2026</dd>
-          </div>
-          <div>
-            <dt className="meta meta--faint">VENUE</dt>
-            <dd>VIT CHENNAI</dd>
-          </div>
-        </dl>
 
-        <p className="hero__philosophy" aria-label="Build. Break. Test. Ship. Repeat.">
-          {event.philosophy.map((word) => (
-            <span key={word} aria-hidden="true">
-              {word}
-            </span>
-          ))}
-        </p>
+          <aside className="hero__rail">
+            <div className="hero__actions">
+              <RegisterLink className="btn btn--solid">
+                <span>ENTER RECURSION</span>
+                <span className="btn__arrow" aria-hidden="true">
+                  →
+                </span>
+              </RegisterLink>
+              <a className="btn" href="#tracks">
+                <span>EXPLORE THE LOOPS</span>
+                <span className="btn__arrow" aria-hidden="true">
+                  ↓
+                </span>
+              </a>
+            </div>
 
-        <p className="hero__support lede">{event.heroSupport}</p>
-
-        <div className="hero__actions">
-          <RegisterLink className="btn btn--solid">
-            <span>ENTER RECURSION</span>
-            <span className="btn__arrow" aria-hidden="true">
-              →
-            </span>
-          </RegisterLink>
-          <a className="btn" href="#tracks">
-            <span>EXPLORE THE LOOPS</span>
-          </a>
+            <dl className="hero__facts">
+              <div>
+                <dt className="meta meta--faint">FORMAT</dt>
+                <dd>24-HOUR OFFLINE HACKATHON</dd>
+              </div>
+              <div>
+                <dt className="meta meta--faint">DATES</dt>
+                <dd>3–4 SEPTEMBER 2026</dd>
+              </div>
+              <div>
+                <dt className="meta meta--faint">VENUE</dt>
+                <dd>VIT CHENNAI</dd>
+              </div>
+            </dl>
+          </aside>
         </div>
       </div>
 

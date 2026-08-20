@@ -30,22 +30,27 @@ export default function Footer({ pointer, scroll }: FooterProps) {
           <span className="footer__numeral">{event.editionNumeral}</span>
         </div>
 
+        {/* Four equal columns, each opening on the same rule, so every heading
+            sits on one baseline instead of the ragged 1-tall/3-tall mix. */}
         <div className="footer__cols">
-          <div>
+          <div className="footer__col">
             <span className="meta meta--red">ORGANISED BY</span>
             <div className="footer__org">
               <MicLogo className="footer__org-logo" />
-              <p className="footer__value footer__value--flush">
+              <p className="footer__value">
                 Microsoft Innovations Club
                 <br />
                 VIT Chennai
               </p>
             </div>
+          </div>
+
+          <div className="footer__col">
             <span className="meta meta--red">FLAGSHIP EVENT OF</span>
             <p className="footer__value">TechnoVIT 2026</p>
           </div>
 
-          <div>
+          <div className="footer__col">
             <span className="meta meta--red">WHEN &amp; WHERE</span>
             <p className="footer__value">
               {event.date}
@@ -56,7 +61,7 @@ export default function Footer({ pointer, scroll }: FooterProps) {
             </p>
           </div>
 
-          <div>
+          <div className="footer__col">
             <span className="meta meta--red">FOLLOW</span>
             <ul className="footer__links">
               <li>

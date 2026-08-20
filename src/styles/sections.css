@@ -509,7 +509,7 @@
   justify-content: center;
   min-height: 100vh;
   min-height: 100svh;
-  padding: clamp(7rem, 16vh, 11rem) var(--gutter) clamp(4.5rem, 10vh, 7rem);
+  padding: clamp(5.5rem, 12.5vh, 9rem) var(--gutter) clamp(3rem, 6.5vh, 5rem);
   overflow: hidden;
 }
 .hero:focus {
@@ -524,7 +524,7 @@
 }
 
 .hero__meta {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem;
 }
 
 .hero__title {
@@ -551,9 +551,26 @@
   letter-spacing: 0.02em;
 }
 
+/* Everything under the wordmark splits in two: the voice stays left, the hard
+   facts and the call to action move to a right-hand rail. That stops the fold
+   reading as one heavy left column, and it lifts REGISTER to roughly mid
+   viewport instead of stranding it under the copy. */
+.hero__body {
+  display: grid;
+  gap: clamp(1.75rem, 4vw, 4rem);
+  align-items: start;
+}
+.hero__lead {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(1.1rem, 2.4vh, 1.75rem);
+  min-width: 0;
+}
+
 .hero__tagline {
   margin: 0;
-  padding: 0.6rem 0;
+  padding: 0.55rem 0;
   border-top: 1px solid var(--rule-red);
   border-bottom: 1px solid var(--rule-red);
   align-self: flex-start;
@@ -564,14 +581,62 @@
   color: var(--crimson-accent);
 }
 
-.hero__facts {
+.hero__philosophy {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem 2.5rem;
+  gap: 0.1rem 0.95rem;
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: clamp(1.5rem, 3.5vw, 2.85rem);
+  line-height: 1.06;
+  letter-spacing: -0.03em;
+}
+.hero__philosophy span:nth-child(even) {
+  color: var(--crimson-accent);
+}
+
+.hero__support {
+  max-width: 32ch;
+  color: var(--cream-dim);
   margin: 0;
 }
+
+/* ---- the rail ---- */
+
+.hero__rail {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.1rem, 2.4vh, 1.6rem);
+  width: 100%;
+  min-width: 0;
+}
+
+.hero__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.hero__actions .btn {
+  width: 100%;
+  justify-content: space-between;
+}
+
+.hero__facts {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  border-top: 1px solid var(--rule);
+}
+.hero__facts > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--rule);
+}
 .hero__facts dt {
-  margin-bottom: 0.3rem;
+  margin: 0;
 }
 .hero__facts dd {
   margin: 0;
@@ -581,31 +646,19 @@
   color: var(--cream);
 }
 
-.hero__philosophy {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem 1.1rem;
-  margin: 0;
-  font-family: var(--display);
-  font-weight: 900;
-  font-size: clamp(1.5rem, 4.6vw, 3rem);
-  line-height: 1;
-  letter-spacing: -0.03em;
-}
-.hero__philosophy span:nth-child(even) {
-  color: var(--crimson-accent);
-}
-
-.hero__support {
-  max-width: 34ch;
-  color: var(--cream-dim);
-  margin: 0;
-}
-
-.hero__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
+@media (min-width: 1000px) {
+  .hero__body {
+    grid-template-columns: minmax(0, 1fr) clamp(17rem, 22vw, 21rem);
+  }
+  .hero__rail {
+    justify-self: end;
+    text-align: right;
+    padding-left: clamp(1.25rem, 2.4vw, 2.25rem);
+    border-left: 1px solid var(--rule);
+  }
+  .hero__facts > div {
+    align-items: flex-end;
+  }
 }
 
 .hero__scroll {
@@ -650,6 +703,10 @@
   }
   .hero__scroll {
     display: none;
+  }
+  /* Rail folds back into the flow: CTA first, then the facts as a rule-set. */
+  .hero__rail {
+    max-width: 26rem;
   }
 }
 
@@ -1603,66 +1660,86 @@
 }
 .footer__grid {
   display: grid;
-  gap: clamp(2.5rem, 6vw, 4rem);
-  padding: clamp(3.5rem, 8vw, 6rem) var(--gutter) clamp(2.5rem, 5vw, 4rem);
+  gap: clamp(2rem, 4.5vw, 3.25rem);
+  padding: clamp(3.5rem, 8vw, 5.5rem) var(--gutter) clamp(2.5rem, 5vw, 3.5rem);
 }
-@media (min-width: 1000px) {
-  .footer__grid {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
-    align-items: start;
-  }
-}
+
+/* The lockup gets its own full-width row. Sharing a row with the info columns
+   was letting the wordmark overrun its track and sit on top of ORGANISED BY. */
 .footer__mark {
   display: flex;
-  align-items: baseline;
-  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem clamp(0.85rem, 1.6vw, 1.4rem);
+  min-width: 0;
 }
 .footer__name {
   font-family: var(--display);
   font-weight: 900;
+  font-size: clamp(2rem, 5.6vw, 5rem);
   line-height: 0.82;
   letter-spacing: -0.045em;
 }
 .footer__numeral {
   font-family: var(--display);
   font-weight: 700;
-  font-size: clamp(1.5rem, 4vw, 3rem);
+  font-size: clamp(1.25rem, 3vw, 2.5rem);
+  line-height: 1;
+  letter-spacing: 0.02em;
   color: var(--crimson-accent);
 }
+
 .footer__cols {
   display: grid;
-  gap: 2rem;
+  gap: clamp(1.75rem, 3vw, 2.5rem);
 }
-@media (min-width: 640px) {
+@media (min-width: 620px) {
   .footer__cols {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
-.footer__value {
-  margin: 0.6rem 0 1.75rem;
-  font-size: 0.9375rem;
-  line-height: 1.55;
-  color: var(--cream);
+@media (min-width: 1000px) {
+  .footer__cols {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }
-.footer__value:last-child {
-  margin-bottom: 0;
+
+/* One rule across the top of every column, so the four headings share a
+   baseline and the blocks below them keep a single rhythm. */
+.footer__col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.85rem;
+  min-width: 0;
+  padding-top: clamp(0.85rem, 1.5vw, 1.15rem);
+  border-top: 1px solid var(--rule);
+}
+
+.footer__value {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--cream);
 }
 .footer__links {
   list-style: none;
-  margin: 0.75rem 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.55rem;
+  margin: 0;
   padding: 0;
-}
-.footer__links li + li {
-  margin-top: 0.6rem;
 }
 .footer__links a {
   font-size: 0.9375rem;
+  line-height: 1.5;
   color: var(--cream);
   border-bottom: 1px solid var(--rule);
   transition:
     color 0.3s var(--ease),
     border-color 0.3s var(--ease);
-  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 .footer__links a:hover {
   color: var(--crimson-accent);
@@ -1670,11 +1747,11 @@
 }
 
 .footer__closing {
-  margin: 0;
-  padding: 0 var(--gutter) clamp(3rem, 7vw, 5rem);
+  margin: 0 auto;
   max-width: var(--maxw);
-  margin-inline: auto;
-  line-height: 1;
+  padding: clamp(2rem, 4.5vw, 3.25rem) var(--gutter) clamp(3rem, 6vw, 4.5rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
   color: var(--cream);
 }
 
@@ -1747,8 +1824,8 @@
     display: inline-block;
     padding: 0.7rem 0;
   }
-  .footer__links li + li {
-    margin-top: 0;
+  .footer__links {
+    gap: 0;
   }
   .philosophy__word {
     padding: 0.65rem 0;
@@ -1865,7 +1942,6 @@
   }
 
   /* Two full-width buttons stack better than two ragged half-width ones. */
-  .hero__actions .btn,
   .registration__actions .btn {
     width: 100%;
     justify-content: center;
